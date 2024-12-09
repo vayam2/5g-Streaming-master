@@ -9,7 +9,6 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "canvas": "^2.11.2",
-    "git": "^0.1.5",
     "jpeg-js": "^0.4.4",
     "mapbox-gl": "^3.8.0",
     "mqtt": "^5.10.3",

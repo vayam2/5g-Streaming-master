@@ -11,20 +11,17 @@ const jpeg = require("jpeg-js"); // Ensure you have this dependency installed
 const app = express();
 const server = http.createServer(app);
 
-// Configure CORS options
 const corsOptions = {
-  origin: "http://localhost:3000", // Replace with your front-end's URL
+  origin: "https://droneyaan.com", // Replace with your front-end's URL
+  methods: ["GET", "POST"],
 };
 
-// // Apply CORS middleware
 app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 
-// Serve static files from the "public" directory
 app.use(express.static("public"));
 
-// Initialize data objects
 let gpsData = { lat: 37.7749, lon: -122.4194, alt: 100 }; // Default to San Francisco
 let weatherData = { description: "Clear Sky" }; // Default weather data
 
@@ -64,14 +61,13 @@ app.get("/", (req, res) => {
   res.send("Welcome to the Drone Backend API!");
 });
 
-// Socket.IO setup
+
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:3000", // Replace with your front-end's URL
+    origin: "https://droneyaan.com", // Replace with your front-end's URL
     methods: ["GET", "POST"],
   },
 });
-
 
 io.on("connection", (socket) => {
   console.log("A client connected");
@@ -146,6 +142,10 @@ mqttClient.on("message", (topic, message) => {
 
 // Start the server
 const port = 5000;
-server.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+// server.listen(port, () => {
+//   console.log(`Server running on http://localhost:${port}`);
+// });
+
+server.listen(port, "0.0.0.0", () => {
+  console.log(`Server running on http://65.0.71.42:${port}`);
 });

@@ -6,7 +6,7 @@ import Map from './Map'; // Import the Map component
 import Login from './Login';
 import io from 'socket.io-client'; // Import Socket.IO client library
 
-const SOCKET_SERVER_URL = 'http://localhost:5000'; 
+const SOCKET_SERVER_URL = 'https://65.0.71.42:5000'; 
 
 function App() {
   const [gpsData, setGpsData] = useState({ lat: 0, lon: 0, alt: 0 });
