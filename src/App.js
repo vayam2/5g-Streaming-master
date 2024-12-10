@@ -6,7 +6,10 @@ import Map from './Map'; // Import the Map component
 import Login from './Login';
 import io from 'socket.io-client'; // Import Socket.IO client library
 
-const SOCKET_SERVER_URL = 'https://65.0.71.42:5000'; 
+// const SOCKET_SERVER_URL = 'https://www.droneyaan.com'; 
+
+const SOCKET_SERVER_URL = 'https://www.droneyaan.com';
+
 
 function App() {
   const [gpsData, setGpsData] = useState({ lat: 0, lon: 0, alt: 0 });
@@ -24,7 +27,9 @@ function App() {
   const [socket, setSocket] = useState(null); // Socket.IO client state
 
   useEffect(() => {
-    const socketClient = io(SOCKET_SERVER_URL);
+    const socketClient = io(SOCKET_SERVER_URL, {
+      transports: ["websocket", "polling"]
+    });
 
     socketClient.on('connect', () => {
       console.log('Connected to Socket.IO server');
@@ -89,14 +94,14 @@ function App() {
           <p>Drone Name: {droneName}</p>
         </div>
 
-        
+
 
         <Map latitude={gpsData.lat} longitude={gpsData.lon} />
 
         <div style={{
           position: 'absolute',
-          top: '300px', 
-          left: '1px', 
+          top: '300px',
+          left: '1px',
           right: '50px',
           bottom: '-17px',
           display: 'flex',

@@ -11,7 +11,7 @@ const Map = () => {
     // Fetch GPS data from the backend
     const fetchGPSData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/gps');
+        const response = await fetch('https://www.droneyaan.com/api/gps');
         const data = await response.json();
         setGpsData({ latitude: data.lat, longitude: data.lon });
       } catch (error) {

@@ -11,7 +11,7 @@ import { faBatteryHalf, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
 
 // Connect to the Socket.IO server
 // const socket = io('http://localhost:5000'); // Replace with your backend URL
-const socket = io('https://65.0.71.42:5000'); // Replace with your backend URL
+const socket = io('https://www.droneyaan.com'); // Replace with your backend URL
 
 // Helper function to calculate distance between two GPS coordinates
 function calculateDistance(lat1, lon1, lat2, lon2) {

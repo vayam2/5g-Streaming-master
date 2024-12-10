@@ -11,15 +11,26 @@ const jpeg = require("jpeg-js"); // Ensure you have this dependency installed
 const app = express();
 const server = http.createServer(app);
 
+// CORS setup
 const corsOptions = {
   origin: "https://droneyaan.com", // Replace with your front-end's URL
-  methods: ["GET", "POST"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true, // Allow cookies or authorization headers
 };
 
 app.use(cors(corsOptions));
 
-app.use(bodyParser.json());
+// Middleware to ensure HTTPS redirection (if Express is behind a proxy like NGINX)
+app.use((req, res, next) => {
+  if (req.headers["x-forwarded-proto"] !== "https") {
+    return res.redirect("https://" + req.headers.host + req.url);
+  }
+  next();
+});
 
+// Use body parser to handle JSON payloads
+app.use(bodyParser.json());
 app.use(express.static("public"));
 
 let gpsData = { lat: 37.7749, lon: -122.4194, alt: 100 }; // Default to San Francisco
@@ -61,10 +72,10 @@ app.get("/", (req, res) => {
   res.send("Welcome to the Drone Backend API!");
 });
 
-
+// Initialize WebSocket server (Socket.IO)
 const io = socketIo(server, {
   cors: {
-    origin: "https://droneyaan.com", // Replace with your front-end's URL
+    origin: "https://droneyaan.com", // Frontend URL
     methods: ["GET", "POST"],
   },
 });
@@ -83,7 +94,7 @@ io.on("connection", (socket) => {
 });
 
 // MQTT setup to subscribe and stream live images
-const MQTT_BROKER_URL = "mqtt://3.110.177.25:1883"; // Replace with your AWS MQTT broker URL
+const MQTT_BROKER_URL = "mqtt://65.0.71.42:1883"; // Replace with your MQTT broker URL
 const TOPIC_GPS = "drone/gps";
 const TOPIC_WEATHER = "drone/weather";
 const TOPIC_IMAGE = "test"; // Topic for live image data
@@ -101,7 +112,6 @@ mqttClient.on("connect", () => {
 
 mqttClient.on("message", (topic, message) => {
   console.log(`Received topic: ${topic}`);
-
   console.log("Message payload:", message);
 
   if (topic === TOPIC_GPS) {
@@ -140,12 +150,8 @@ mqttClient.on("message", (topic, message) => {
   }
 });
 
-// Start the server
+// Start the server on a specific port
 const port = 5000;
-// server.listen(port, () => {
-//   console.log(`Server running on http://localhost:${port}`);
-// });
-
 server.listen(port, "0.0.0.0", () => {
-  console.log(`Server running on http://65.0.71.42:${port}`);
+  console.log(`Server running on https://13.127.226.95:${port}`);
 });
