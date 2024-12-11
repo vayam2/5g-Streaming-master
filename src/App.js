@@ -6,9 +6,9 @@ import Map from './Map'; // Import the Map component
 import Login from './Login';
 import io from 'socket.io-client'; // Import Socket.IO client library
 
-// const SOCKET_SERVER_URL = 'https://www.droneyaan.com'; 
+const SOCKET_SERVER_URL = 'https://www.droneyaan.com'; 
 
-const SOCKET_SERVER_URL = 'https://www.droneyaan.com';
+// const SOCKET_SERVER_URL = "wss://droneyaan.com";
 
 
 function App() {
